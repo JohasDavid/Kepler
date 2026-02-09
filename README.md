@@ -7,6 +7,7 @@ The Kepler problem in Physics consist of determining the motion of particle movi
 
 ---
 ## Technicalities
+
 The simulation is perfomed in the C programming language using the SDL2 library for graphics rendering.
 The equations of motion are integrated using Euler's method.
 ---
