@@ -7,9 +7,22 @@
 
 #define COLOR_WHITE 0xffffff
 #define COLOR_BLACK 0x000000
+#define BLUE 0x0000FF
 #define RAYS_NUMBER 300
 #define COLOR_GRAY 0xFFF1A8 //amarillo
 #define G 10000
+#define POINTS_PATH 1000
+
+typedef struct point{
+    double x;
+    double y;
+} Point;
+
+typedef struct path{
+    Point points[POINTS_PATH];
+    int num_points;
+    int flag;
+}Path;
 
 
 struct Ray{
@@ -40,6 +53,37 @@ struct Circle{
     double ax;
     double ay;
 };
+
+Path* initPath(){
+    Path* p = calloc(1, sizeof(Path));
+    return p;
+}
+
+void UpdatePath(Path* p, struct Circle* c){
+    if(p->num_points >= POINTS_PATH) p->num_points = 0; 
+    p->points[p->num_points].x = c->x;
+    p->points[p->num_points].y = c->y;
+    p->num_points++;
+    if(p->num_points == POINTS_PATH) p->flag = 1;
+}
+
+void DrawPath(Path* p, SDL_Surface* surface){
+    int max = p->num_points;
+    if(!p->flag){
+        for(int j = 0; j <= max; j++){
+            
+            SDL_Rect pixel = (SDL_Rect){p->points[j].x,p->points[j].y , 3, 3};
+            SDL_FillRect(surface, &pixel, BLUE);
+        }
+    }else{
+        for(int j = 0; j < POINTS_PATH; j++){
+            
+            SDL_Rect pixel = (SDL_Rect){p->points[j].x,p->points[j].y , 3, 3};
+            SDL_FillRect(surface, &pixel, BLUE);
+        }
+    }
+}
+
 
 void UpdateCircle(struct Circle *circle, struct Circle *source){
     struct vector X = {1, 0};
@@ -130,6 +174,8 @@ int main(){
     SDL_Event e;
     int running = 1;
 
+    Path* pat = initPath();
+
     while (running) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT){
@@ -140,7 +186,10 @@ int main(){
         SDL_FillRect(surface, &erase_rect, COLOR_BLACK);
         FillCircle(surface, circle, COLOR_GRAY);
         FillCircle(surface, shadow_circle, COLOR_WHITE);
+        UpdatePath(pat, &shadow_circle);
+        
         FillRays(surface, rays, COLOR_GRAY, shadow_circle);
+        DrawPath(pat, surface);
 
         SDL_UpdateWindowSurface(window);
         UpdateCircle(&shadow_circle, &circle);
