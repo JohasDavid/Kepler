@@ -23,5 +23,5 @@ The equations of motion are integrated using Euler's method.
 
 ## Demo Path tracing
 
-![Simulation Path](assets(demo2.gif))
+![Simulation Path](assets/demo2.gif)
 
