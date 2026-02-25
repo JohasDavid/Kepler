@@ -11,7 +11,7 @@ The equations of motion are integrated using Euler's method.
 
 ## Possible Improvements
 - Add numerical integrators with higher accuracy (e.g., Runge–Kutta methods).
-- Draw the orbital trajectory (path tracing).
+- Draw the orbital trajectory (path tracing). (done!)
 - Add the General Relativity correction to the Newtonian force.
 
 ---
@@ -20,3 +20,8 @@ The equations of motion are integrated using Euler's method.
 ## Demo
 
 ![Simulation Demo](assets/demo.gif)
+
+## Demo Path tracing
+
+![Simulation Path](assets(demo2.gif))
+
